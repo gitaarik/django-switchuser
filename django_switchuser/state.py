@@ -34,13 +34,13 @@ class SuState(object):
         return self.auth_user.is_superuser
 
     def available_users(self):
-        return User.objects.all().order_by("username")
+        return User.objects.all().order_by(User.USERNAME_FIELD)
 
     def user_long_label(self, user):
-        return "%s (%s <%s>)" %(user.username, user.get_full_name(), user.email)
+        return "%s (%s <%s>)" %(getattr(user, User.USERNAME_FIELD), user.get_full_name(), user.email)
 
     def user_short_label(self, user):
-        return user.username
+        return getattr(user, User.USERNAME_FIELD)
 
     def set_su_user_id(self, su_user_id):
         """ Switches to user ID ``su_user_id`` if they are one of the users
