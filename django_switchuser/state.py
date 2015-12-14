@@ -1,9 +1,10 @@
 import logging
 
 from django.contrib.auth import SESSION_KEY as AUTH_SESSION_KEY
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 log = logging.getLogger(__name__)
+User = get_user_model()
 
 class SuState(object):
     def __init__(self, request):
