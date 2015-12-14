@@ -1,3 +1,4 @@
+import six
 import sys
 
 from django.conf import settings as s
@@ -12,10 +13,17 @@ class SuStateMiddleware(object):
     def process_request(self, request):
         try:
             request.su_state = self.su_state_class(request)
-        except AttributeError as e:
+        except AttributeError as error:
             if not hasattr(request, "user"):
-                raise AttributeError(
-                    str(e) + " (NOTE: django_switchuser must be **after** "
+                raise self.get_su_config_error(
+                    error,
+                    str(error) + " (NOTE: django_switchuser must be **after** "
                     "django.contrib.auth.middleware.AuthenticationMiddleware!)"
-                ), None, sys.exc_info()[2]
+                )
             raise
+
+    def get_su_config_error(self, error, message):
+        if six.PY2:
+            return AttributeError(message), None, sys.exc_info()[2]
+        else:
+            return error.with_traceback(message)
