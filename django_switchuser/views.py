@@ -21,7 +21,7 @@ def referrer_path(meta, default=None):
     cur_domain = drop_subdomain(meta.get("HTTP_HOST", ""))
     if next_domain != cur_domain:
         return default
-    return urllib.urlunsplit(('', '') + parsed[2:])
+    return urllib.parse.urlunsplit(('', '') + parsed[2:])
 
 def guess_next(request, default=None):
     if "next" in request.GET:
