@@ -158,7 +158,6 @@ For example, if you don't like the default switch user bar, you could add your
 own to your ``base.html``::
 
     {% load switchuser %}
-    {% load url %}
 
     {% if su_state.is_active %}
         <a href="{% url "su-logout" %}">deactive {% su_user_short_label su.active_user %}</a>
